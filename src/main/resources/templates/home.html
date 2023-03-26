@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <title>Title</title>
+</head>
+<body>
+<script>
+    $(document).ready(function() {
+        $("#search").click(function() {
+            var foodType = $("#foodType").val();
+            var name = $("#name").val();
+
+            $.ajax({
+                type: "GET",
+                url: "/price",
+                data: { foodType: foodType, name: name },
+                success: function(result) {
+                    $("#result").text("가격 : " + result.price+"원")
+                },
+                error: function(xhr, status, error) {
+                    $("#result").text("가격 : ")
+                    console.log(error);
+                }
+            });
+        });
+    });
+</script>
+    <div>
+        <div>분류</div>
+        <select id="foodType" th:field="${foodType}">
+            <option th:each="option : ${T(gette.market.util.FoodType).getOptions()}"
+                    th:value="${option.value}"
+                    th:text="${option.label}"></option>
+        </select>
+        <input id="name" type="text" />
+        <button id="search">조회</button>
+
+        <br>
+        <div id="result">가격 :</div>
+    </div>
+</body>
+</html>
