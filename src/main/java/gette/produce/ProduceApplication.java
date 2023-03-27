@@ -1,13 +1,13 @@
-package gette.market;
+package gette.produce;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class MarketApplication {
+public class ProduceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(MarketApplication.class, args);
+		SpringApplication.run(ProduceApplication.class, args);
 	}
 
 }

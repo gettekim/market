@@ -1,10 +1,10 @@
-package gette.market;
+package gette.produce;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class MarketApplicationTests {
+class ProduceApplicationTests {
 
 	@Test
 	void contextLoads() {

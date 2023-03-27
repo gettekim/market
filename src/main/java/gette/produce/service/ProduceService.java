@@ -1,11 +1,11 @@
-package gette.market.service;
+package gette.produce.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import gette.market.dto.FoodRequestDTO;
-import gette.market.dto.FoodResponseDTO;
-import gette.market.dto.Token;
-import gette.market.util.FoodType;
+import gette.produce.dto.ProduceRequestDTO;
+import gette.produce.dto.ProduceResponseDTO;
+import gette.produce.dto.Token;
+import gette.produce.util.ProduceType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
@@ -22,29 +22,29 @@ import java.util.Arrays;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class MarketService {
+public class ProduceService {
 
     private final RestTemplate restTemplate;
 
-    public FoodResponseDTO getFoodPrice(FoodRequestDTO request) throws JsonProcessingException {
+    public ProduceResponseDTO getProducePrice(ProduceRequestDTO request) throws JsonProcessingException {
         //API요청에 필요한 토큰 발급
-        Token token = getToken(request.getFoodType());
+        Token token = getToken(request.getProduceType());
         //음식 목록 리스트 조회
-        String [] foodList = getFoodList(request.getFoodType(), token);
+        String [] produceList = getProduceList(request.getProduceType(), token);
         //유효한 음식인지 확인
-        if(!isValidFood(request.getName(), foodList)){
-            throw new IllegalArgumentException("유효하지 않은 음식입니다.");
+        if(!isValidProduce(request.getName(), produceList)){
+            throw new IllegalArgumentException("유효하지 않은 농산물입니다.");
         }
-        return getFoodPrice(request, token);
+        return getProducePrice(request, token);
     }
 
-    public Token getToken(FoodType type) throws JsonProcessingException {
+    public Token getToken(ProduceType type) throws JsonProcessingException {
         ResponseEntity<String> response = restTemplate.getForEntity(type.getTokenUrl(), String.class);
         return new Token(getAuthorization(response));
     }
 
-    public String[] getFoodList(FoodType type, Token token){
-        String url = type.getFoodUrl();
+    public String[] getProduceList(ProduceType type, Token token){
+        String url = type.getProduceUrl();
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", token.getAccessToken());
         HttpEntity<?> entity = new HttpEntity<>(headers);
@@ -62,20 +62,20 @@ public class MarketService {
         return response.getBody();
     }
 
-    public boolean isValidFood(String name, String[] list){
+    public boolean isValidProduce(String name, String[] list){
         return Arrays.asList(list).contains(name);
     }
 
-    public FoodResponseDTO getFoodPrice(FoodRequestDTO request,Token token){
+    public ProduceResponseDTO getProducePrice(ProduceRequestDTO request, Token token){
         UriComponentsBuilder builder = UriComponentsBuilder
-                .fromUriString(request.getFoodType().getFoodUrl())
+                .fromUriString(request.getProduceType().getProduceUrl())
                 .queryParam("name", request.getName());
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", token.getAccessToken());
         HttpEntity<?> entity = new HttpEntity<>(headers);
-        ResponseEntity<FoodResponseDTO> response;
+        ResponseEntity<ProduceResponseDTO> response;
         try {
-            response = restTemplate.exchange(builder.build(false).toString(), HttpMethod.GET, entity, FoodResponseDTO.class);
+            response = restTemplate.exchange(builder.build(false).toString(), HttpMethod.GET, entity, ProduceResponseDTO.class);
         } catch (RestClientException e) {
             throw new RuntimeException(e);
         }

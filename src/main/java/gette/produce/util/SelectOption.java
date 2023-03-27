@@ -1,4 +1,4 @@
-package gette.market.util;
+package gette.produce.util;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

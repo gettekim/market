@@ -1,9 +1,9 @@
-package gette.market.dto;
+package gette.produce.dto;
 
 import lombok.Data;
 
 @Data
-public class FoodResponseDTO {
+public class ProduceResponseDTO {
 
     private String name;
     private int price;

@@ -1,4 +1,4 @@
-package gette.market.dto;
+package gette.produce.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

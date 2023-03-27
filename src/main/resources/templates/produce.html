@@ -9,13 +9,13 @@
 <script>
     $(document).ready(function() {
         $("#search").click(function() {
-            var foodType = $("#foodType").val();
+            var produceType = $("#produceType").val();
             var name = $("#name").val();
 
             $.ajax({
                 type: "GET",
                 url: "/price",
-                data: { foodType: foodType, name: name },
+                data: { produceType: produceType, name: name },
                 success: function(result) {
                     $("#result").text("가격 : " + result.price+"원")
                 },
@@ -29,8 +29,8 @@
 </script>
     <div>
         <div>분류</div>
-        <select id="foodType" th:field="${foodType}">
-            <option th:each="option : ${T(gette.market.util.FoodType).getOptions()}"
+        <select id="produceType" th:field="${produceType}">
+            <option th:each="option : ${T(gette.produce.util.ProduceType).getOptions()}"
                     th:value="${option.value}"
                     th:text="${option.label}"></option>
         </select>
