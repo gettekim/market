@@ -85,7 +85,9 @@ public class ProduceService {
         return response.getBody();
     }
 
-    //토큰값 출력
+    /**
+     * 헤더에 토큰 값이 없을 경우 responseBody 에서 토큰값을 가져옴
+     */
     public String getAuthorization(ResponseEntity<String> response) throws JsonProcessingException {
         String authorizationValue = getAuthorizationFromCookie(response);
         if (authorizationValue == null) {
