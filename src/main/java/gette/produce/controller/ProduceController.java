@@ -10,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
@@ -29,7 +28,7 @@ public class ProduceController {
     }
 
     @RequestMapping("/price")
-    public ResponseEntity<ProduceResponseDTO> getFoodPrice(@Valid @RequestBody ProduceRequestDTO request) throws JsonProcessingException {
+    public ResponseEntity<ProduceResponseDTO> getFoodPrice(@Valid ProduceRequestDTO request) throws JsonProcessingException {
         ProduceResponseDTO produceResponseDTO = produceService.getProducePrice(request);
         return ResponseEntity.ok(produceResponseDTO);
     }
