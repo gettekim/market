@@ -20,8 +20,9 @@
                     $("#result").text("가격 : " + result.price+"원")
                 },
                 error: function(xhr, status, error) {
+                    alert("잘못된 요청입니다.")
                     $("#result").text("가격 : ")
-                    console.log(error);
+
                 }
             });
         });
