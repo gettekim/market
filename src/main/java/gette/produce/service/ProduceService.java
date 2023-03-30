@@ -2,6 +2,9 @@ package gette.produce.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import gette.exception.ProduceListNotFoundException;
+import gette.exception.ProduceNotFoundException;
+import gette.exception.ProducePriceNotFoundException;
 import gette.produce.dto.ProduceRequestDTO;
 import gette.produce.dto.ProduceResponseDTO;
 import gette.produce.dto.Token;
@@ -33,7 +36,7 @@ public class ProduceService {
         String [] produceList = getProduceList(request.getProduceType(), token);
         //유효한 음식인지 확인
         if(!isValidProduce(request.getName(), produceList)){
-            throw new IllegalArgumentException("유효하지 않은 농산물입니다.");
+            throw new ProduceNotFoundException();
         }
         return getProducePrice(request, token);
     }
@@ -53,11 +56,7 @@ public class ProduceService {
             response = restTemplate.exchange(url, HttpMethod.GET, entity, String[].class);
 
         } catch (RestClientException e) {
-            throw new RuntimeException(e);
-        }
-
-        if(response.getBody() == null){
-            throw  new NullPointerException();
+            throw new ProduceListNotFoundException();
         }
         return response.getBody();
     }
@@ -77,10 +76,7 @@ public class ProduceService {
         try {
             response = restTemplate.exchange(builder.build(false).toString(), HttpMethod.GET, entity, ProduceResponseDTO.class);
         } catch (RestClientException e) {
-            throw new RuntimeException(e);
-        }
-        if(response.getBody() == null){
-            throw  new NullPointerException();
+            throw new ProducePriceNotFoundException();
         }
         return response.getBody();
     }
