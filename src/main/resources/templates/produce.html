@@ -21,6 +21,7 @@
                 },
                 error: function(xhr, status, error) {
                     alert("잘못된 요청입니다.")
+                    $("#name").focus();
                     $("#result").text("가격 : ")
 
                 }
